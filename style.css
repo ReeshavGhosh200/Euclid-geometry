@@ -1,0 +1,60 @@
+* {
+  font-family: "Raleway";
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+#canvas {
+  display: block;
+  border: 2px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50vh;
+  width: 90vw;
+  cursor: default;
+}
+
+.info {
+  font-size: 10px;
+  margin: 0;
+}
+
+.con {
+  display: flex;
+  height: 5vh;
+  align-items: center;
+  justify-content: center;
+}
+.con option, .con select {
+  border: none;
+  font-size: large;
+  border-radius: 20px;
+  padding: 10px;
+  cursor: pointer;
+  background: linear-gradient(to right, orange 50%, red 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 0.5s ease-in-out;
+}
+.con option:hover, .con select:hover {
+  background-position: 0% 0;
+}
+.con option:not(:hover), .con select:not(:hover) {
+  background-position: 100% 0;
+}
+
+.infos {
+  position: absolute;
+  background-color: yellow;
+  font-size: 12.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
+  width: 97vw;
+  bottom: 0;
+}/*# sourceMappingURL=style.css.map */
