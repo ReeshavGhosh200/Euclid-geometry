@@ -53,6 +53,17 @@ const pointB = {
   r: 7,
 }
 
+const pointD = {
+    x: xPos(),
+    y: yPos(),
+    r: 7,
+}
+const pointE = {
+    x: xPos(),
+    y: yPos(),
+    r: 7,
+}
+
 function draw(color, x, y, r, text){
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -154,6 +165,24 @@ function render() {
     ctx.moveTo(pointA.x, pointA.y);
     ctx.lineTo(pointB.x, pointB.y);
     ctx.moveTo(midX, midY);
+    ctx.lineTo(endX, endY);
+    ////////
+    let distance2 = getDistance(pointD.x, pointD.y, pointE.x, pointE.y)
+    midX2 = (pointD.x + pointE.x) / 2;
+    midY2 = (pointD.y + pointE.y) / 2;
+    
+    angle = Math.atan2(pointE.y - pointD.y, pointE.x - pointD.x);
+    perpendicularAngle = angle + Math.PI / 2;
+    
+    endX = midX2 + Math.cos(perpendicularAngle) * distance2 / 2;
+    endY = midY2 + Math.sin(perpendicularAngle) * distance2 / 2;
+    draw("red", pointD.x, pointD.y, pointD.r, "D");
+    draw("orange", pointE.x, pointE.y, pointE.r, "E");
+    draw("dodgerblue", midX, midY, 7, "C")
+    ctx.beginPath();
+    ctx.moveTo(pointD.x, pointD.y);
+    ctx.lineTo(pointE.x, pointE.y);
+    ctx.moveTo(midX2, midY2);
     ctx.lineTo(endX, endY);
     ctx.stroke();
   }
