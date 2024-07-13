@@ -76,6 +76,8 @@ function draw(color, x, y, r, text){
 
 let aHovered = false;
 let bHovered = false;
+let dHovered = false;
+let eHovered = false;
 let draggingPoint = null;
 
 function render() {
@@ -88,6 +90,7 @@ function render() {
     ctx.beginPath();
     ctx.moveTo(pointA.x, pointA.y);
     ctx.lineTo(pointB.x, pointB.y);
+    ctx.lineTo(pointD.x, pointD.y);
     ctx.stroke();
   }
   //////
@@ -130,156 +133,4 @@ function render() {
 
     ctx.moveTo(pointB.x, pointB.y);
     ctx.lineTo(0, (pointB.y - pointA.y) * (0 - pointB.x) / (pointB.x - pointA.x) + pointB.y);
-    ctx.lineTo(width, (pointB.y - pointA.y) * (width - pointB.x) / (pointB.x - pointA.x) + pointB.y);
-
-    ctx.stroke();
-  }
-  //////
-  else if(three){
-    msg.innerHTML = "Postulate 3: A circle can be drawn with any centre and any radius.";
-    ctx.beginPath();
-    ctx.arc(pointA.x, pointA.y, radius, 0, 2*Math.PI);
-    ctx.stroke();
-    ctx.fillStyle = "black";
-    ctx.font = "20px Raleway";
-    ctx.fillText(`Radius: ${radius.toFixed(2)}px`, width/2-10, height - 10);
-    draw("red", pointA.x, pointA.y, pointA.r, "A");
-    draw("orange", pointB.x, pointB.y, pointB.r, "B");
-  }
-  //////
-  else if(four) {
-    msg.innerHTML = "Postulate 4: All Right Angles are congruent";
-    let distance = getDistance(pointA.x, pointA.y, pointB.x, pointB.y)
-    let midX1 = (pointA.x + pointB.x) / 2;
-    let midY1 = (pointA.y + pointB.y) / 2;
-    
-    angle = Math.atan2(pointB.y - pointA.y, pointB.x - pointA.x);
-    perpendicularAngle = angle + Math.PI / 2;
-    
-    endX = midX1 + Math.cos(perpendicularAngle) * distance / 2;
-    endY = midY1 + Math.sin(perpendicularAngle) * distance / 2;
-    draw("red", pointA.x, pointA.y, pointA.r, "A");
-    draw("orange", pointB.x, pointB.y, pointB.r, "B");
-    draw("dodgerblue", midX1, midY1, 7, "C")
-    ctx.beginPath();
-    ctx.moveTo(pointA.x, pointA.y);
-    ctx.lineTo(pointB.x, pointB.y);
-    ctx.moveTo(midX1, midY1);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-    
-    ///////
-    let distance2 = getDistance(pointD.x, pointD.y, pointE.x, pointE.y)
-    let midX2 = (pointD.x + pointE.x) / 2;
-    let midY2 = (pointD.y + pointE.y) / 2;
-    
-    angle = Math.atan2(pointE.y - pointD.y, pointE.x - pointD.x);
-    perpendicularAngle = angle + Math.PI / 2;
-    
-    endX = midX2 + Math.cos(perpendicularAngle) * distance2 / 2;
-    endY = midY2 + Math.sin(perpendicularAngle) * distance2 / 2;
-    draw("red", pointD.x, pointD.y, pointD.r, "D");
-    draw("orange", pointE.x, pointE.y, pointE.r, "E");
-    ctx.beginPath();
-    ctx.moveTo(pointD.x, pointD.y);
-    ctx.lineTo(pointE.x, pointE.y);
-    ctx.moveTo(midX2, midY2);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-  }
-  //////
-  else if(five){
-    msg.innerHTML = "Postulate 5: If two lines are drawn which intersect a third in such a way that the sum of the inner angles on one side is less than two Right Angles, then the two lines inevitably must intersect each other on that side if extended far enough.";
-    ctx.fillStyle = "dodgerblue";
-    ctx.font = "40px Raleway";
-    ctx.fillText(`Comming Soon!`, 10, height / 2);
-  }
-  
-  requestAnimationFrame(render);
-}
-
-render();
-
-canvas.addEventListener("mousemove", (event) => {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-
-    aHovered = check(mouseX, mouseY, pointA);
-    bHovered = check(mouseX, mouseY, pointB);
-
-    if (draggingPoint) {
-        draggingPoint.x = mouseX;
-        draggingPoint.y = mouseY;
-    }
-
-    canvas.style.cursor = (aHovered || bHovered) ? "grab" : "default";
-});
-
-canvas.addEventListener("mousedown", (event) => {
-  if (aHovered) {
-    draggingPoint = pointA;
-    canvas.style.cursor = "grabbing";
-  } else if (bHovered) {
-    draggingPoint = pointB;
-    canvas.style.cursor = "grabbing";
-  }
-});
-
-canvas.addEventListener("mouseup", () => {
-  draggingPoint = null;
-  canvas.style.cursor = (aHovered || bHovered) ? "grab" : "default";
-});
-
-// Add touch events
-canvas.addEventListener("touchstart", (event) => {
-  const rect = canvas.getBoundingClientRect();
-  const touchX = event.touches[0].clientX - rect.left;
-  const touchY = event.touches[0].clientY - rect.top;
-
-  aHovered = check(touchX, touchY, pointA);
-  bHovered = check(touchX, touchY, pointB);
-
-  if (aHovered) {
-    draggingPoint = pointA;
-    canvas.style.cursor = "grabbing";
-  } else if (bHovered) {
-    draggingPoint = pointB;
-    canvas.style.cursor = "grabbing";
-  }
-});
-
-canvas.addEventListener("touchmove", (event) => {
-  const rect = canvas.getBoundingClientRect();
-  const touchX = event.touches[0].clientX - rect.left;
-  const touchY = event.touches[0].clientY - rect.top;
-
-  if (draggingPoint) {
-    draggingPoint.x = touchX;
-    draggingPoint.y = touchY;
-  }
-});
-
-canvas.addEventListener("touchend", () => {
-  draggingPoint = null;
-  canvas.style.cursor = (aHovered || bHovered) ? "grab" : "default";
-});
-
-function check(mouseX, mouseY, point) {
-  const dist = Math.hypot(mouseX - point.x, mouseY - point.y);
-  return dist < (point.r + 14);
-}
-
-window.addEventListener("resize", () => {
-  height = canvas.height = canvas.clientHeight;
-  width = canvas.width = canvas.clientWidth;
-  pointA.x = xPos();
-  pointA.y = yPos();
-
-  pointB.x = xPos();
-  pointB.y = yPos();
-});
-
-function getDistance(x1, y1, x2, y2) {
-    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-}
+    ctx.lineTo(width, (pointB.y - pointA.y) * (width - pointB.x) / (pointB.x - pointA.x
